@@ -4,6 +4,7 @@ class WebhookService
   NOTION_URL = "https://api.notion.com/v1/pages"
 
   attr_reader :webhook_params, :webhook_text
+
   def initialize(webhook_params)
     @webhook_params = webhook_params
     @webhook_text = webhook_params["message"]["text"]
@@ -13,16 +14,12 @@ class WebhookService
     error_message if @webhook_params.blank?
 
     notion_params = {
-      "parent": {
-        "database_id": ENV["NOTION_DATABASE_ID"],
-        "properties": {
-          "Name": {
-            "title": [
-              {
-                "text": {"content": webhook_text}
-              }
-            ]
-          }
+      "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
+      "properties": { "Name": { "title": [
+            {
+              "text": { "content": webhook_text }
+            }
+          ]
         }
       }
     }
