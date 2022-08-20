@@ -35,7 +35,7 @@ class WebhookService
       reply_back("Successfully added #{webhook_text} to Notion ✅")
       success_message
     else
-      reply_back("Failed to add #{webhook_text} to Notion ❌")
+      reply_back("Failed to add #{webhook_text} to Notion ❌, error: #{response.body}")
       error_message
     end
   end
