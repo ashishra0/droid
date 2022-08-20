@@ -28,13 +28,13 @@ class WebhookService
     }
 
     headers = {
-      "Authorization": "bearer #{ENV['NOTION_TOKEN']}",
+      "Authorization": "Bearer #{ENV['NOTION_TOKEN']}",
       "Content-Type": "application/json",
       "Notion-Version": "2022-06-28"
     }
 
-    HTTParty.post(NOTION_URL, body: notion_params.to_json, headers: headers)
-
+    response = HTTParty.post(NOTION_URL, body: notion_params.to_json, headers: headers)
+    print response
     success_message
   end
 
