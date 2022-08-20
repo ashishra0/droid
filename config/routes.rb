@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'webhooks/receive', controller: :webhooks, action: :receive
+      get 'ping', controller: :ping, action: :index
     end
   end
 end
