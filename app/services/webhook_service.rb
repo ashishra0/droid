@@ -27,8 +27,8 @@ class WebhookService
       "Notion-Version": "2022-06-28"
     }
 
-    response = HTTParty.post(NOTION_URL, body: notion_params.to_json, headers: headers)
-    print response
+    HTTParty.post(NOTION_URL, body: notion_params.to_json, headers: headers)
+
     success_message
   end
 
