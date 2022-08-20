@@ -1,4 +1,4 @@
-class WebhookService
+class TelegramWebhookService
   include HTTParty
 
   TELEGRAM_URL = "https://api.telegram.org/bot#{ENV['TELEGRAM_TOKEN']}/sendMessage"
@@ -13,7 +13,10 @@ class WebhookService
   end
 
   def process
-    error_message if @webhook_params.blank?
+    if @webhook_params.blank? || @webhook_text.blank?
+      reply_back("Webhook received, but message text is blank. Cannot process ❌.")
+      return
+    end
 
     notion_params = {
       "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
