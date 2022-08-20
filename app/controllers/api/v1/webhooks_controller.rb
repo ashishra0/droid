@@ -3,7 +3,7 @@ module Api
     class WebhooksController < ApplicationController
 
       def receive
-        result = WebhookService.new(webhook_params).process
+        result = TelegramWebhookService.new(webhook_params).process
 
         render json: result, status: :ok
       end
