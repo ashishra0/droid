@@ -17,7 +17,7 @@ class WebhookService
       "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
       "properties": {
         "Name": { "title": [{ "text": { "content": webhook_text } }] },
-        "URL": { "title": [{ "url": { "url": webhook_text } }] }
+        "URL": { "url": webhook_text }
       }
     }
 
