@@ -18,7 +18,7 @@ class WebhookService
     notion_params = {
       "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
       "properties": {
-        "ID": { "title": [{ "text": { "content": webhook_message_id} }] },
+        "ID": { "title": [{ "text": { "content": webhook_message_id.to_s} }] },
         "Link": { "url": webhook_text }
       }
     }
