@@ -1,5 +1,6 @@
 class TelegramWebhookService
   include HTTParty
+  include ActiveModel::Validations
 
   TELEGRAM_URL = "https://api.telegram.org/bot#{ENV['TELEGRAM_TOKEN']}/sendMessage"
 
@@ -13,8 +14,8 @@ class TelegramWebhookService
   end
 
   def process
-    if @webhook_params.blank? || @webhook_text.blank?
-      reply_back("Webhook received, but message text is blank. Cannot process ❌.")
+    if @webhook_params.blank? || @webhook_text.valid_url?
+      reply_back("Invalid message❌. \n Please send Twitter URLs only.")
       return
     end
 
@@ -64,5 +65,13 @@ class TelegramWebhookService
     data = { chat_id: webhook_chat_id, text: text }
 
     HTTParty.post(TELEGRAM_URL, body: data.to_json, headers: headers)
+  end
+
+  def valid_url?
+    uri = URI.parse(webhook_text)
+
+    uri.scheme == "https" && uri.host =~ /twitter\.com\Z/
+  rescue URI::InvalidURIError
+    false
   end
 end
