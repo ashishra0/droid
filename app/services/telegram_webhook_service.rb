@@ -1,6 +1,5 @@
 class TelegramWebhookService
   include HTTParty
-  include ActiveModel::Validations
 
   TELEGRAM_URL = "https://api.telegram.org/bot#{ENV['TELEGRAM_TOKEN']}/sendMessage"
 
