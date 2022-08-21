@@ -63,7 +63,7 @@ class TelegramWebhookService
     headers = { "Content-Type": "application/json" }
     data = {
       chat_id: webhook_chat_id,
-      message_id: webhook_message_id,
+      reply_to_message_id: webhook_message_id,
       text: text
     }
 
