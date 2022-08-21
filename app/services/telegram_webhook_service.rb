@@ -15,7 +15,7 @@ class TelegramWebhookService
 
   def process
     unless valid_url?(webhook_text)
-      reply_back("Invalid message❌. \n Please send Twitter URLs only.")
+      reply_back("Invalid message❌ \nPlease send Twitter URLs only 🙏")
       return
     end
 
@@ -39,7 +39,7 @@ class TelegramWebhookService
       reply_back("Successfully added #{webhook_text} to Notion ✅")
       success_message
     else
-      reply_back("Failed to add #{webhook_text} to Notion ❌, error: #{response.body}")
+      reply_back("Failed to add #{webhook_text} to Notion ❌ \nerror: #{response.body}")
       error_message
     end
   end
