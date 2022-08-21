@@ -61,7 +61,11 @@ class TelegramWebhookService
 
   def reply_back(text)
     headers = { "Content-Type": "application/json" }
-    data = { chat_id: webhook_chat_id, text: text }
+    data = {
+      chat_id: webhook_chat_id,
+      message_id: webhook_message_id,
+      text: text
+    }
 
     HTTParty.post(TELEGRAM_URL, body: data.to_json, headers: headers)
   end
