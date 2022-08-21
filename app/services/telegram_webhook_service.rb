@@ -14,7 +14,7 @@ class TelegramWebhookService
   end
 
   def process
-    if @webhook_params.blank? || @webhook_text.valid_url?
+    if webhook_params.blank? || valid_url?
       reply_back("Invalid message❌. \n Please send Twitter URLs only.")
       return
     end
