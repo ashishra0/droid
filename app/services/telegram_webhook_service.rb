@@ -14,7 +14,7 @@ class TelegramWebhookService
   end
 
   def process
-    if valid_url?(webhook_text)
+    unless valid_url?(webhook_text)
       reply_back("Invalid message❌. \n Please send Twitter URLs only.")
       return
     end
