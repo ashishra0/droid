@@ -14,7 +14,7 @@ class TelegramWebhookService
   end
 
   def process
-    if webhook_params.blank? || valid_url?
+    if valid_url?(webhook_text)
       reply_back("Invalid message❌. \n Please send Twitter URLs only.")
       return
     end
@@ -67,8 +67,8 @@ class TelegramWebhookService
     HTTParty.post(TELEGRAM_URL, body: data.to_json, headers: headers)
   end
 
-  def valid_url?
-    uri = URI.parse(webhook_text)
+  def valid_url?(url)
+    uri = URI.parse(url)
 
     uri.scheme == "https" && uri.host =~ /twitter\.com\Z/
   rescue URI::InvalidURIError
