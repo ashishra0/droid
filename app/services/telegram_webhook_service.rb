@@ -35,10 +35,10 @@ class TelegramWebhookService
     response = HTTParty.post(ENV['NOTION_URL'], body: notion_params.to_json, headers: headers)
 
     if response.code == 200
-      reply_back("Successfully added #{webhook_text} to Notion ✅")
+      reply_back("Successfully published to Notion ✅")
       success_message
     else
-      reply_back("Failed to add #{webhook_text} to Notion ❌ \nerror: #{response.body}")
+      reply_back("Failed to publish to Notion ❌ \nerror: #{response.body}")
       error_message
     end
   end
