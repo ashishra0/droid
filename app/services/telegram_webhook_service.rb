@@ -1,7 +1,4 @@
 class TelegramWebhookService
-  include HTTParty
-
-  TELEGRAM_URL = "https://api.telegram.org/bot#{ENV['TELEGRAM_TOKEN']}/sendMessage"
 
   attr_reader :webhook_params, :webhook_text, :webhook_chat_id, :webhook_message_id
 
@@ -18,21 +15,7 @@ class TelegramWebhookService
       return
     end
 
-    notion_params = {
-      "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
-      "properties": {
-        "ID": { "title": [{ "text": { "content": webhook_message_id.to_s} }] },
-        "Link": { "url": webhook_text }
-      }
-    }
-
-    headers = {
-      "Authorization": "Bearer #{ENV['NOTION_TOKEN']}",
-      "Content-Type": "application/json",
-      "Notion-Version": "2022-06-28"
-    }
-
-    response = HTTParty.post(ENV['NOTION_URL'], body: notion_params.to_json, headers: headers)
+    response = ExternalApis::NotionApi.new.publish(notion_params)
 
     if response.code == 200
       reply_back("Successfully published to Notion ✅")
@@ -59,22 +42,31 @@ class TelegramWebhookService
     }
   end
 
-  def reply_back(text)
-    headers = { "Content-Type": "application/json" }
-    data = {
-      chat_id: webhook_chat_id,
-      reply_to_message_id: webhook_message_id,
-      text: text
-    }
-
-    HTTParty.post(TELEGRAM_URL, body: data.to_json, headers: headers)
-  end
-
   def valid_url?(url)
     uri = URI.parse(url)
 
     uri.scheme == "https" && uri.host =~ /twitter\.com\Z/
   rescue URI::InvalidURIError
     false
+  end
+
+  def reply_back(text)
+    data = {
+      chat_id: webhook_chat_id,
+      reply_to_message_id: webhook_message_id,
+      text: text
+    }
+
+    ExternalApis::TelegramApi.new.publish(data)
+  end
+
+  def notion_params
+    {
+      "parent": { "database_id": ENV["NOTION_DATABASE_ID"] },
+      "properties": {
+        "ID": { "title": [{ "text": { "content": webhook_message_id.to_s} }] },
+        "Link": { "url": webhook_text }
+      }
+    }
   end
 end
